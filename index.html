@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>reveal.js - The HTML Presentation Framework</title>
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+
+	<body>
+		<div class="reveal">
+			<div class="slides">
+        <section>
+        <!-- <section data-background="images/title_slide.jpg"> -->
+          <h3>Extending Monitoring Capabilities With Golang</h3>
+          <p>&nbsp;</p>
+          <P>Yieldbot</p>
+          <p>March 10 2016</p>
+        </section>
+
+        <section id="fragments">
+          <h2>whoami</h2>
+          <p class="fragment">I am an operational tool and infrastructure developer at Yieldbot that has mild OCD and hates doing things twice.
+          <img style="float: left;" src="images/moss1.png"></p>
+          <p class="fragment">I don't even wait till I do something twice before scripting it</p>
+        </section>
+
+        <section>
+        <h2>Part 1</h2>
+        <h4>There's More To Being An Infrastructure Developer Than Writing Code</h4>
+        </section>
+
+        <section id="fragments">
+          <h2>Just Use Perl</h2>
+            <p style="position: absolute; left: 0px;" class="fragment"> Don't want to deal with a runtime or interperter </p><br />
+            <p style="position: absolute; left: 0px;" class="fragment"> Clear performance gains using a compiled language </p><br />
+        </section>
+
+        <section id="fragments">
+          <h2>Why Golang</h2>
+          <p style="position: absolute; left: 0px;" class="fragment">already in use at Yieldbot</p><br />
+          <p style="position: absolute; left: 0px;" class="fragment">less complex than C/C++</p><br />
+          <p style="position: absolute; left: 0px;" class="fragment">Rust is not mature yet</p><br />
+          <p style="position: absolute; left: 0px;" class="fragment">Java requires a jvm </p><br />
+        </section>
+
+        <section id="fragments">
+          <h2>Goals</h2>   
+          <p style="position: absolute; left: 0px;" class="fragment">increased performance</p><br />
+          <p style="position: absolute; left: 0px;" class="fragment">dependency isolation</p><br />
+          <p style="position: absolute; left: 0px;" class="fragment">lightweight codebase</p><br />
+          <p style="position: absolute; left: 0px;" class="fragment">max compatibility across any environment</p><br />
+        </section>
+
+        <section id="fragments">
+          <h2>It worked in dev...sorta</h2>
+          <img style="float: right;" src="images/devopsevil.jpg">
+          <p style="float: left;" class="fragment">fancy tools != easier process</p>
+          <p style="float: left;" class="fragment">static builds for a static language</p>
+          <p style="float: left;" class="fragment">Makefiles are your friend</p>
+          <p style="float: left;" class="fragment">library vs. binary vs. dammit just compile</p>
+          <p style="float: left;" class="fragment">dealing with dependents (don't kick'em out)</p>
+        </section>
+
+        <section>
+          <h1>Part 2</h1>
+          <h4> Where Has This Gotten Us </h4>
+        </section>
+<script src="b.js"></script>
+        <section>
+          <h2>Toolbelt</h2>
+          <section>
+            <p><a href="https://github.com/codegangsta/cli">cli.go</a></p>
+            <pre><code>
+func main() {
+  app := cli.NewApp()
+  app.Name = "boom"
+  app.Usage = "make an explosive entrance"
+  app.Action = func(c *cli.Context) {
+    println("boom! I say!")
+  }
+  app.Run(os.Args)
+}
+        </pre></code>
+      </section>
+      <section>
+        <p><a href="https://github.com/spf13/cobra">Cobra</a></p>
+        <pre><code>
+var checkFileHandlesCmd = &cobra.Command{
+  Use:   "checkFileHandles",
+  Short: "A brief description of your command",
+  Long: "A longer description",
+  Run: func(cmd *cobra.Command, args []string) {
+
+    var appPid string
+
+    if app == "" {
+      fmt.Printf("Please enter a process name to check. \n")
+    }
+  },
+}
+        </code></pre>
+      </section>
+      <section>
+        <p><a href="https://github.com/spf13/viper">Viper</a></p>
+        <ul>
+          <li>Find, load, and unmarshal a configuration file in JSON, YAML, HCL, etc.</li>
+          <li>Allow you to set default values for your different config options.</li>
+          <li>Allow you to set override values command line flags.</li>
+        </ul>
+      </section>
+      <section>
+      <p><a href="https://github.com/tools/godep">Godep</a></p>
+      </section>
+    </section>
+
+    <section>
+      <h2> Geting From Here To There</h2>
+      <section id="fragments">
+        <h4>Writing the code</h4>
+        <p style="float: left;" class="fragment">Any editor as long as its <a href="http://vim.spf13.com/">vim</a></p>
+        <p style="float: left;" class="fragment">Cobra provides a simple scaffolding command</p>
+        <p style="float: left;" class="fragment">Viper provides a simple way to deal with configuration</p>
+        <p style="float: left;" class="fragment">Godep provides a simple and clean vendoring solution</p>
+        <p style="float: left;" class="fragment">Vagrant/Docker provide a simple local test environment</p>
+      </section>
+      <section id="fragments">
+        <h4>Building the code</h4>
+        <p style="float: left;" class="fragment">Commit to Github</p>
+        <p style="float: left;" class="fragment">Building is managed via jenkins through a <a href="https://github.com/yieldbot/yieldbot-golang-tools/blob/master/builder/Makefile">Makefile</a></p>
+        <p style="float: left;" class="fragment">Compiling is done within a container of the dev's choice</p>
+        <p style="float: left;" class="fragment">Binaries are versioned and pushed to Artifactory and Github</p>
+        <p style="float: left;" class="fragment">Libraries are marked as building</p>
+      </section>
+      <section>
+        <h4>Deploying the code</h4>
+        <p style="float: left;" class="fragment">Via Curl from Artifactory in Dockerfiles</p>
+        <p style="float: left;" class="fragment">Via Chef <a href="https://github.com/burtlo/ark">ark</a> cookbook on vm's</p>
+      </section>
+     </section>
+
+     <section>
+       <h2>Part 3</h2>
+       <h4>What did you actually write with Golang</h4>
+     </section>
+
+     <section>
+       <h2>sensuplugin</h2>
+       <p style="position: absolute; left: 0px;">Repo: <a href="https://github.com/yieldbot/sensuplugin">sensuplugin</a></p><br />
+       <p>&nbsp;</p>
+       <section id="fragments">
+         <h4 style="position: absolute; left: 0px;">Features</h4><br />
+         <p style="position: absolute; left: 0px;" class="fragment">common exit codes</p><br />
+         <p style="position: absolute; left: 0px;" class="fragment">common error handler</p><br />
+         <p style="position: absolute; left: 0px;" class="fragment">common exit function</p><br />
+         <p style="position: absolute; left: 0px;" class="fragment">functions to facilitate writing Sensu handlers</p><br />
+       </section>
+     </section>
+
+     <section>
+       <h2>sensuplugines</h2>
+       <p style="position: absolute; left: 0px;">Repo: <a href="https://github.com/yieldbot/sensuplugines">sensuplugines</a></p><br />
+       <p>&nbsp;</p>
+       <section id="fragments">
+         <h4 style="position: absolute; left: 0px;">Features</h4><br />
+         <p style="position: absolute; left: 0px;" class="fragment">send a defined subset of Sensu event data to ES</p><br />
+         <p style="position: absolute; left: 0px;" class="fragment">uses sensuplugin functionality</p><br />
+       </section>
+     </section>
+
+     <section>
+       <h2>sensupluginslack</h2>
+       <p style="position: absolute; left: 0px;">Repo: <a href="https://github.com/yieldbot/sensupluginslack">sensupluginslack</a></p><br />
+       <p>&nbsp;</p>
+       <section id="fragments">
+         <h4 style="position: absolute; left: 0px;">Features</h4><br />
+         <p style="position: absolute; left: 0px;" class="fragment">send a defined subset of Sensu event data to Slack</p><br />
+         <p style="position: absolute; left: 0px;" class="fragment">uses sensuplugin functionality</p><br />
+       </section>
+     </section>
+
+     <section>
+       <h2>sensupluginfile</h2>
+       <p style="position: absolute; left: 0px;">Repo: <a href="https://github.com/yieldbot/sensupluginfile">sensupluginfile</a></p><br />
+       <p>&nbsp;</p>
+       <section id="fragments">
+         <h4 style="position: absolute; left: 0px;">Features</h4><br />
+         <p style="position: absolute; left: 0px;" class="fragment">monitor the number of open file handles</p><br />
+         <p style="position: absolute; left: 0px;" class="fragment">monitor the size of a given file</p><br />
+         <p style="position: absolute; left: 0px;" class="fragment">uses sensuplugin functionality</p><br />
+         <p style="position: absolute; left: 0px;" class="fragment">functions to facilitate working with files</p><br />
+       </section>
+     </section>
+
+     <section>
+       <h2>Additional Resources</h2>
+       <ul>
+         <li><a href="https://github.com/github/hubot/blob/master/docs/scripting.md">Need to add contrib docs</a></li>
+         <li><a href="http://12factor.net/">12 Factor App</a></li>
+       </ul>
+     </section>
+
+     <section>
+       <h2>Questions?</h2>
+       <ul>
+         <li>Slack: <a href="https://bosops-invite.herokuapp.com/">BosOps</a></li>
+         <li>Twitter: <a href="https://twitter.com/DevopsMatt">@DevopsMatt</a></li>
+         <li>Github: <a href="https://github.com/mattyjones">mattyjones</a></li>
+         <li>Meetup: <a href="http://www.meetup.com/Metrowest-Golang-Meetup/">Metrowest Golang Meetup</a></li>
+         <li>Yieldbot is <a href="https://www.yieldbot.com/careers/">hiring</a>, come build cool stuff!</li>
+      </ul>
+     </section>
+</div>
+		</div>
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+		<script>
+			Reveal.initialize({
+				controls: true,
+				progress: false,
+				history: false,
+				center: false,
+        touch: true,
+        loop: false,
+        slideNumber: false,
+        transition: 'convex',
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+		</script>
+	</body>
+</html>
