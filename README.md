@@ -1,3 +1,3 @@
-## Hubots - More Than Meets The Eye
+## EXTENDING MONITORING CAPABILITIES WITH GOLANG
 ## Boston infrastructure Coders Meetup
 
